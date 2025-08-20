@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+* {
+    font-family: 'Poppins', 'Helvetica', sans-serif;
+}
+
+body {
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: 'Frosting';
+    src: url('/fonts/Frosting.ttf') format('truetype');
+}
+
+.font-frosting {
+    font-family: 'Frosting', 'Poppins', 'Helvetica', sans-serif;
+}
+
+#__nuxt > div {
+    display: flex;
+    min-height: 100vh;
+    @apply bg-neutral-200 dark:bg-neutral-800;
+}
+
+.btn-style {
+    @apply rounded-lg bg-primary-400 border-2 border-b-5 border-neutral-600 pointer-events-auto hover:border-b-7 cursor-pointer shadow-lg;
+}
+
+.btn-text {
+    @apply text-3xl text-neutral-50;
+    font-family: 'Frosting', 'Poppins', 'Helvetica', sans-serif;
+    filter: drop-shadow(1px 1px 0px #333) drop-shadow(-1px -1px 0px #333) drop-shadow(-1px 1px 0px #333) drop-shadow(1px -1px 0px #333);
+}
