@@ -1,6 +1,6 @@
 <template>
     <div class="flex grow bg-primary-500 select-none">
-        <div class="absolute top-0 left-0 flex w-full h-1/4 items-end justify-center space-x-6 z-50">
+        <div class="absolute top-0 left-0 flex flex-col md:flex-row w-full h-1/4 items-center md:items-end justify-center md:space-x-6 z-50">
             <div class="title-spawn" style="animation-delay: 000ms;">
                 <h1 class="title font-frosting"> The </h1>
             </div>
@@ -23,7 +23,7 @@
         <div class="absolute bottom-0 left-0 flex w-full h-fit items-end justify-center z-50 pointer-events-none">
             <button
                 ref="playBtn"
-                class="mb-[7%] px-6 py-3 btn-style transition-all"
+                class="mb-[7%] px-4 py-2 md:px-6 md:py-3 btn-style transition-all"
                 @click="onPlayClicked"
             >
                 <p class="btn-text">Play !</p>
@@ -32,11 +32,11 @@
         <div ref="levelPanel"
             class="absolute top-0 left-0 flex w-full h-full items-center justify-center z-50 pointer-events-none transition-all"
             style="opacity: 0; transform: translateY(100%);">
-            <div class="flex flex-col justify-center items-start space-y-4">
-                <button @click="onReturnClicked" class="px-6 py-3 btn-style">
+            <div class="flex flex-col justify-center items-start space-y-4 min-w-0 max-w-full px-2">
+                <button @click="onReturnClicked" class="px-4 py-2 md:px-6 md:py-3 btn-style">
                     <p class="btn-text">Back</p>
                 </button>
-                <div class="flex w-[50vw] h-[50vh] space-x-2 z-50">
+                <div class="flex grow max-w-full max-h-full h-64 w-128 min-w-0 min-h-0 space-x-2 z-50">
                     <div class="flex w-fit h-full justify-center items-center">
                         <button class="px-1 pt-1 btn-style"
                             @click="levelPrev">
@@ -46,9 +46,9 @@
                     <div class="flex grow overflow-hidden items-center">
                         <div class="flex w-full h-full transition-all" :style="`transform: translateX(-${levelCursor}00%)`">
                             <div v-for="level in levels" class="flex flex-shrink-0 w-full h-full justify-center items-center">
-                                <NuxtLink class="flex flex-col w-[90%] h-[90%] p-3 rounded-2xl btn-style"
+                                <NuxtLink class="flex flex-col min-h-fit min-w-fit p-3 rounded-2xl btn-style"
                                     :to="`/level?id=${level.id}`">
-                                    <div class="flex grow bg-neutral-50 rounded-lg border-2 border-neutral-700">
+                                    <div class="flex grow bg-neutral-50 rounded-lg border-2 border-neutral-700 min-h-24 min-w-24">
 
                                     </div>
                                     <div class="flex h-fit p-2 justify-center items-center">
@@ -161,12 +161,12 @@ function levelNext() {
 @import "tailwindcss";
 
 .title {
-    @apply text-8xl font-extrabold drop-shadow-2xl text-neutral-50;
+    @apply text-6xl md:text-8xl font-extrabold drop-shadow-2xl text-neutral-50;
     filter: drop-shadow(4px 4px 0px oklch(70.8% 0 0)) drop-shadow(0 16px 16px rgba(0, 0, 0, 0.2));
 }
 
 .fkn {
-    @apply text-8xl italic font-extrabold drop-shadow-2xl text-red-500 rotate-6 translate-y-2 -translate-x-1;
+    @apply text-6xl md:text-8xl italic font-extrabold drop-shadow-2xl text-red-500 rotate-6 md:translate-y-2 md:-translate-x-1;
     filter: drop-shadow(4px 4px 0px oklch(50.5% 0.213 27.518)) drop-shadow(0 16px 16px rgba(0, 0, 0, 0.2));
 }
 

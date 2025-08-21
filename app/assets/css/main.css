@@ -30,7 +30,7 @@ body {
 }
 
 .btn-text {
-    @apply text-3xl text-neutral-50;
+    @apply text-2xl md:text-3xl text-neutral-50;
     font-family: 'Frosting', 'Poppins', 'Helvetica', sans-serif;
     filter: drop-shadow(1px 1px 0px #333) drop-shadow(-1px -1px 0px #333) drop-shadow(-1px 1px 0px #333) drop-shadow(1px -1px 0px #333);
 }

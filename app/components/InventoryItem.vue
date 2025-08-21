@@ -1,6 +1,6 @@
 <template>
     <div class="btn-style p-1 h-fit" :class="selected === item ? '-translate-y-1' : ''">
-        <canvas ref="canvas" class="w-14 h-14" />
+        <canvas ref="canvas" class="w-12.5 h-12.5" />
     </div>
 </template>
 

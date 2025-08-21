@@ -1,14 +1,14 @@
 <template>
     <div class="flex grow bg-primary-500 select-none">
-        <NuxtLink class="absolute top-2 left-2 px-6 py-3 btn-style pointer-events-auto z-50" to="/menu">
+        <NuxtLink class="absolute top-2 left-2 px-4 py-2 md:px-6 md:py-3 btn-style pointer-events-auto z-50" to="/menu">
             <p class="btn-text">Back</p>
         </NuxtLink>
-        <div class="absolute w-full h-fit bottom-2 left-0 flex justify-center z-50">
-            <div class="flex space-x-4 h-fit items-end">
+        <div class="absolute bottom-2 left-2 right-2 h-fit flex justify-start md:justify-center z-50">
+            <div class="flex space-x-4 h-fit w-fit items-end">
                 <InventoryItem v-for="item in inventory" :item="item" :selected="selectedItem" @click="() => onItemSelected(item)" />
             </div>
         </div>
-        <div class="absolute w-fit h-fit bottom-2 right-2 space-x-4 flex z-50 items-end">
+        <div class="absolute bottom-2 right-2 w-fit h-fit space-x-4 flex z-50 items-end">
             <button v-show="!isReset" class="btn-style px-1 pt-1 h-fit" @click="resetLevel()">
                 <UIcon name="i-heroicons-stop" size="3em" class="text-neutral-700" />
             </button>
@@ -21,11 +21,11 @@
                 </button>
             </div>
         </div>
-        <div class="absolute w-fit h-fit bottom-2 left-2 space-x-4 flex z-50 items-end">
+        <!-- <div class="absolute w-fit h-fit bottom-2 left-2 space-x-4 flex z-50 items-end">
             <button class="btn-style px-1 pt-1 h-fit" @click="reloadLevel()">
                 <UIcon name="i-heroicons-arrow-path" size="3em" class="text-neutral-700" />
             </button>
-        </div>
+        </div> -->
         <Scene :scene="levelScene" />
     </div>
 </template>
