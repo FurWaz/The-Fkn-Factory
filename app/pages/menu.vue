@@ -1,5 +1,5 @@
 <template>
-    <div class="flex grow bg-primary-500">
+    <div class="flex grow bg-primary-500 select-none">
         <div class="absolute top-0 left-0 flex w-full h-1/4 items-end justify-center space-x-6 z-50">
             <div class="title-spawn" style="animation-delay: 000ms;">
                 <h1 class="title font-frosting"> The </h1>
@@ -90,8 +90,8 @@ onMounted(() => {
     menuScene.addBlocks(
         new FBlockGenerator(new Vec3(-1, 0, 0), Orientation.PX),
         new FBlockStraight(new Vec3(0, 0, 0), Orientation.PX),
-        new FBlockCorner(new Vec3(1, 0, 0), Orientation.PX),
-        new FBlockCorner(new Vec3(1, 1, 0), Orientation.PY),
+        new FBlockCornerLeft(new Vec3(1, 0, 0), Orientation.PX),
+        new FBlockCornerLeft(new Vec3(1, 1, 0), Orientation.PY),
         new FBlockStraight(new Vec3(0, 1, 0), Orientation.NX),
         new FBlockTruck(new Vec3(-1, 1, 0), Orientation.NX, 10),
     );

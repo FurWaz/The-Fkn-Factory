@@ -6,7 +6,8 @@ import { CSS2DObject } from "three/examples/jsm/Addons.js";
 
 export enum FBlockType {
     STRAIGHT = "STRAIGHT",
-    CORNER = "CORNER",
+    CORNER_LEFT = "CORNER_LEFT",
+    CORNER_RIGHT = "CORNER_RIGHT",
     GENERATOR = "GENERATOR",
     TRUCK = "TRUCK",
 }
@@ -14,7 +15,8 @@ export enum FBlockType {
 export abstract class FBlock extends Identifiable implements Updatable {
     public static New(type: FBlockType, position: Vec3 = new Vec3(), orientation: Orientation = Orientation.PX): FBlock {
         switch (type) {
-            case FBlockType.CORNER: return new FBlockCorner(position, orientation);
+            case FBlockType.CORNER_LEFT: return new FBlockCornerLeft(position, orientation);
+            case FBlockType.CORNER_RIGHT: return new FBlockCornerRight(position, orientation);
             case FBlockType.STRAIGHT: return new FBlockStraight(position, orientation);
             case FBlockType.GENERATOR: return new FBlockGenerator(position, orientation);
             case FBlockType.TRUCK: return new FBlockTruck(position, orientation);
@@ -132,13 +134,12 @@ export class FBlockStraight extends FBlock {
     }
 }
 
-export class FBlockCorner extends FBlock {
+export class FBlockCornerLeft extends FBlock {
     constructor(position: Vec3 = new Vec3(), orientation: Orientation = Orientation.PX) {
-        super(FBlockType.CORNER, position, orientation);
+        super(FBlockType.CORNER_LEFT, position, orientation);
     }
 
     protected override createPhysicsBody(): FPhysicsBody {
-        const rot = this.quaternion;
         const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed();
         const rigidBody = Physics.Current.world.createRigidBody(rigidBodyDesc);
 
@@ -192,6 +193,78 @@ export class FBlockCorner extends FBlock {
             forceVector.x = CONSTANTS.PACKAGE_SPEED * Time.Delta;
         } else {
             forceVector.y = CONSTANTS.PACKAGE_SPEED * Time.Delta;
+        }
+
+        // rotate back to global space
+        const global_force = new Vec3(
+            forceVector.x * Math.cos(this.orientation) - forceVector.y * Math.sin(this.orientation),
+            forceVector.x * Math.sin(this.orientation) + forceVector.y * Math.cos(this.orientation),
+            forceVector.z
+        );
+
+        p.body.rigidBody?.applyImpulse(new RAPIER.Vector3(global_force.x, global_force.y, global_force.z), true);
+    }
+}
+
+export class FBlockCornerRight extends FBlock {
+    constructor(position: Vec3 = new Vec3(), orientation: Orientation = Orientation.PX) {
+        super(FBlockType.CORNER_RIGHT, position, orientation);
+    }
+
+    protected override createPhysicsBody(): FPhysicsBody {
+        const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed();
+        const rigidBody = Physics.Current.world.createRigidBody(rigidBodyDesc);
+
+        const colliders: RAPIER.Collider[] = [];
+        colliders.push(Physics.Current.world.createCollider(
+            RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.0).setTranslation(0, 0, 0.35),
+            rigidBody
+        ));
+        colliders.push(Physics.Current.world.createCollider(
+            RAPIER.ColliderDesc.roundCuboid(0.0, 0.4, 0.0, 0.05).setTranslation(0.45, 0, 0.45),
+            rigidBody
+        ));
+        colliders.push(Physics.Current.world.createCollider(
+            RAPIER.ColliderDesc.roundCuboid(0.4, 0.0, 0.0, 0.05).setTranslation(0.0, 0.45, 0.45),
+            rigidBody
+        ));
+
+        return new FPhysicsBody(rigidBody, colliders);
+    }
+
+    protected override create3DModel(): F3DModel {
+        const model = new F3DModel();
+        createModel(this.type).then((loadedModel) => {
+            loadedModel.children.forEach(c => model.model.add(c));
+        });
+        return model;
+    }
+
+    public override onReset(): void {
+        
+    }
+
+    override update(): void {
+        
+    }
+
+    override action(p: FPackage): void {
+        // rotate to local space
+        const dx = p.position.x - this.position.x;
+        const dy = p.position.y - this.position.y;
+        const angle = -this.orientation;
+        const local_position = new Vec3(
+            dx * Math.cos(angle) - dy * Math.sin(angle),
+            dx * Math.sin(angle) + dy * Math.cos(angle),
+            p.position.z - this.position.z
+        );
+
+        // move the package in local space
+        const forceVector = new Vec3();
+        if (local_position.x < 0) {
+            forceVector.x = CONSTANTS.PACKAGE_SPEED * Time.Delta;
+        } else {
+            forceVector.y = -CONSTANTS.PACKAGE_SPEED * Time.Delta;
         }
 
         // rotate back to global space

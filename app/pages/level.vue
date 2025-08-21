@@ -1,5 +1,5 @@
 <template>
-    <div class="flex grow bg-primary-500">
+    <div class="flex grow bg-primary-500 select-none">
         <NuxtLink class="absolute top-2 left-2 px-6 py-3 btn-style pointer-events-auto z-50" to="/menu">
             <p class="btn-text">Back</p>
         </NuxtLink>
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import * as THREE from 'three';
-import { FBlockType, type FBlock } from '~/composables/FBlock';
+import { FBlockCornerLeft, FBlockCornerRight, FBlockType, type FBlock } from '~/composables/FBlock';
 
 const route = useRoute();
 const router = useRouter();
@@ -40,7 +40,8 @@ const levelScene = new FScene();
 
 const inventory = ref([
     FBlockStraight,
-    FBlockCorner
+    FBlockCornerLeft,
+    FBlockCornerRight
 ]);
 const selectedItem = ref<any>(null);
 
